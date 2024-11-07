@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Viewer</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 300px; padding: 5px; }
+        button { margin-top: 15px; padding: 10px 15px; }
+        pre { background: #f4f4f4; padding: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+<h1>Log Viewer</h1>
+<form id="log-form">
+    <label for="filename">Log Filename:</label>
+    <input type="text" id="filename" name="filename" value="system.log">
+
+    <label for="n">Number of Entries (n):</label>
+    <input type="number" id="n" name="n" value="10">
+
+    <label for="keyword">Keyword Filter:</label>
+    <input type="text" id="keyword" name="keyword">
+
+    <button type="submit">Get Logs</button>
+</form>
+
+<h2>Logs:</h2>
+<pre id="log-output"></pre>
+
+<script>
+        document.getElementById('log-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const filename = document.getElementById('filename').value;
+            const n = document.getElementById('n').value;
+            const keyword = document.getElementById('keyword').value;
+            const secondary = document.getElementById('secondary').value;
+
+            let url = '/logs?filename=' + encodeURIComponent(filename) + '&n=' + encodeURIComponent(n);
+            if (keyword) {
+                url += '&keyword=' + encodeURIComponent(keyword);
+            }
+            if (secondary) {
+                const servers = secondary.split(',').map(s => s.trim());
+                servers.forEach(server => {
+                    url += '&secondary=' + encodeURIComponent(server);
+                });
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the raw JSON data
+                    document.getElementById('log-output').textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById('log-output').textContent = 'Error: ' + error;
+                });
+        });
+    </script>
+</body>
+</html>
