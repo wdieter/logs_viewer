@@ -16,7 +16,7 @@ class Test(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.setUpClassPyfakefs()
-        # setup the fake filesystem using standard functions
+        # setup the fake filesystem and 5 fake files.
         cls.fake_fs().create_file(
             f"/var/log/{FILE_LOG}",
             contents=f"{LINE_1_WITH_KEYWORD}\n{LINE_2_WITHOUT}\n{LINE_3_WITH}\n"
@@ -25,10 +25,14 @@ class Test(TestCase):
             f"/var/log/{FILE_LOG}.2",
             contents=f"2 {LINE_1_WITH_KEYWORD}\n2 {LINE_2_WITHOUT}\n2 {LINE_3_WITH}\n"
         )
+
+        # create files in subdirectory
         cls.fake_fs().create_file(
             f"/var/log/{SUBDIR}/{FILE_LOG}.3",
             contents=f"{SUBDIR} {LINE_1_WITH_KEYWORD}\n{SUBDIR} {LINE_2_WITHOUT}\n{SUBDIR} {LINE_3_WITH}\n"
         )
+
+        # create files in a deeper nested subdirectory
         cls.fake_fs().create_file(
             f"/var/log/{SUBDIR}/{SUBDIR2}{FILE_LOG}.4",
             contents=f"{SUBDIR2} {LINE_1_WITH_KEYWORD}\n{SUBDIR2} {LINE_2_WITHOUT}\n{SUBDIR2} {LINE_3_WITH}\n"
@@ -78,5 +82,4 @@ class Test(TestCase):
                 expected_list.reverse()
                 expected_list.pop(1)  # remove middle item
                 self.assertEqual(file.logs, expected_list)
-
 

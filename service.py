@@ -35,6 +35,7 @@ def index():
     """
     return render_template('index.html')
 
+
 # for local development purposes app can be run with `python service.py`
 if __name__ == '__main__':
     # Run the app on port 8080

@@ -36,17 +36,10 @@
             const filename = document.getElementById('filename').value;
             const n = document.getElementById('n').value;
             const keyword = document.getElementById('keyword').value;
-            const secondary = document.getElementById('secondary').value;
 
             let url = '/logs?filename=' + encodeURIComponent(filename) + '&n=' + encodeURIComponent(n);
             if (keyword) {
                 url += '&keyword=' + encodeURIComponent(keyword);
-            }
-            if (secondary) {
-                const servers = secondary.split(',').map(s => s.trim());
-                servers.forEach(server => {
-                    url += '&secondary=' + encodeURIComponent(server);
-                });
             }
 
             fetch(url)

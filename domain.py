@@ -18,9 +18,9 @@ class File:
         return file_dict
 
 
+# todo maybe remove read_file_func as it's not used for testing anymore.
 def get_logs(filename: str, n: int, keyword: str, read_file_func: Callable[[str], List[str]]) -> List[File]:
     """
-
     :param filename: either a file or a directory. if a directory is passed, this function will
         call itself recursively to get all logs from all files under that directory
     :param n: the number of lines to return from each file. Note this does not limit how many logs are
