@@ -20,7 +20,7 @@ def handle_get_logs():
         return flask.make_response(jsonify({'error': 'Parameter "n" must be a non-negative integer.'}), 400)
 
     try:
-        res = domain.get_logs(filename, n, keyword, domain.read_file)
+        res = domain.get_logs(filename, n, keyword)
     except FileNotFoundError as e:
         return flask.make_response(jsonify({'error': 'file not found'}), 404)
 

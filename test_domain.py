@@ -43,25 +43,25 @@ class Test(TestCase):
         )
 
     def test_get_logs_one_file(self):
-        res = domain.get_logs(filename=FILE_LOG, n=2, keyword="", read_file_func=domain.read_file)
+        res = domain.get_logs(filename=FILE_LOG, n=2, keyword="")
         expected = [LINE_3_WITH, LINE_2_WITHOUT]  # reverse list (not in place) and take first 2 items
         self.assertEqual(1, len(res))
         self.assertEqual(expected, res[0].logs)
 
     def test_get_logs_one_file_keyword_filter(self):
-        res = domain.get_logs(filename=FILE_LOG, n=2, keyword="keyword", read_file_func=domain.read_file)
+        res = domain.get_logs(filename=FILE_LOG, n=2, keyword="keyword")
         expected = [LINE_3_WITH, LINE_1_WITH_KEYWORD]
         self.assertEqual(1, len(res))
         self.assertEqual(expected, res[0].logs)
 
     def test_get_logs_one_file_no_filter_all_records(self):
-        res = domain.get_logs(filename=FILE_LOG, n=100, keyword="", read_file_func=domain.read_file)
+        res = domain.get_logs(filename=FILE_LOG, n=100, keyword="")
         expected = [LINE_3_WITH, LINE_2_WITHOUT, LINE_1_WITH_KEYWORD]
         self.assertEqual(1, len(res))
         self.assertEqual(expected, res[0].logs)
 
     def test_get_logs_all_files_no_filter_all_records(self):
-        res = domain.get_logs(filename="", n=100, keyword="", read_file_func=domain.read_file)
+        res = domain.get_logs(filename="", n=100, keyword="")
         expected = [LINE_3_WITH, LINE_2_WITHOUT, LINE_1_WITH_KEYWORD]
         self.assertEqual(5, len(res))
         self.assertEqual(expected, res[0].logs)
@@ -72,7 +72,7 @@ class Test(TestCase):
                 self.assertEqual(file.logs, expected_list)
 
     def test_get_logs_all_files_filter(self):
-        res = domain.get_logs(filename="", n=2, keyword="keyword", read_file_func=domain.read_file)
+        res = domain.get_logs(filename="", n=2, keyword="keyword")
         expected = [LINE_3_WITH, LINE_1_WITH_KEYWORD]
         self.assertEqual(5, len(res))
         self.assertEqual(expected, res[0].logs)
@@ -82,4 +82,3 @@ class Test(TestCase):
                 expected_list.reverse()
                 expected_list.pop(1)  # remove middle item
                 self.assertEqual(file.logs, expected_list)
-
